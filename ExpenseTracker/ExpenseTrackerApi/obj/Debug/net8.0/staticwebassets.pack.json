@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Workspace\\21_programming_project_challenge\\ExpenseTracker\\ExpenseTrackerApi\\wwwroot\\categories\\multi.png",
+      "PackagePath": "staticwebassets\\categories\\multi.png"
+    },
+    {
+      "Id": "D:\\Workspace\\21_programming_project_challenge\\ExpenseTracker\\ExpenseTrackerApi\\wwwroot\\uploads\\109973104_711762656050312_4061816273875431360_n.jpg",
+      "PackagePath": "staticwebassets\\uploads\\109973104_711762656050312_4061816273875431360_n.jpg"
+    },
+    {
+      "Id": "D:\\Workspace\\21_programming_project_challenge\\ExpenseTracker\\ExpenseTrackerApi\\wwwroot\\uploads\\45420ad4-629f-4445-bb5a-580439c35a5c.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\45420ad4-629f-4445-bb5a-580439c35a5c.jpeg"
+    },
+    {
+      "Id": "D:\\Workspace\\21_programming_project_challenge\\ExpenseTracker\\ExpenseTrackerApi\\wwwroot\\uploads\\data.json",
+      "PackagePath": "staticwebassets\\uploads\\data.json"
+    },
+    {
+      "Id": "D:\\Workspace\\21_programming_project_challenge\\ExpenseTracker\\ExpenseTrackerApi\\wwwroot\\uploads\\download.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\download.jpeg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ExpenseTrackerApi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.ExpenseTrackerApi.props",
+      "PackagePath": "build\\ExpenseTrackerApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.ExpenseTrackerApi.props",
+      "PackagePath": "buildMultiTargeting\\ExpenseTrackerApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.ExpenseTrackerApi.props",
+      "PackagePath": "buildTransitive\\ExpenseTrackerApi.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
