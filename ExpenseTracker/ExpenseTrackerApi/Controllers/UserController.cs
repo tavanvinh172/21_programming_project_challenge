@@ -4,6 +4,7 @@ using ExpenseTrackerApi.Models.Accounts;
 using ExpenseTrackerApi.ViewModels.Accounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ExpenseTrackerApi.Controllers
 {
@@ -28,6 +29,15 @@ namespace ExpenseTrackerApi.Controllers
 		public async Task<Payload<LoginResponse>> LoginUser(LoginDto loginDto)
 		{
 			return await user.Login(loginDto);
+		}
+
+		[HttpGet]
+		public IActionResult GetCurrentUser()
+		{
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; // Extract 'sub' claim
+			var username = User.Identity?.Name;       // Extract username if present
+
+			return Ok(new { UserId = userId, Username = username });
 		}
 	}
 }

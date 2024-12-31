@@ -5,6 +5,7 @@ using ExpenseTrackerApi.Interfaces;
 using ExpenseTrackerApi.Models.Categories;
 using ExpenseTrackerApi.ViewModels.Categories;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ExpenseTrackerApi.Repo
 {
@@ -13,11 +14,13 @@ namespace ExpenseTrackerApi.Repo
 		private readonly AppDbContext _appDbContext;
 		private readonly IConfiguration configuration;
 		private readonly IMapper mapper;
-		public CategoryRepo(AppDbContext appDbContext, IConfiguration configuration, IMapper mapper)
+		private readonly IHttpContextAccessor contextAccessor;
+		public CategoryRepo(AppDbContext appDbContext, IConfiguration configuration, IMapper mapper, IHttpContextAccessor contextAccessor)
 		{
 			_appDbContext = appDbContext;
 			this.configuration = configuration;
 			this.mapper = mapper;
+			this.contextAccessor = contextAccessor;
 		}
 		public async Task<Payload<CategoryResponse>> AddCategory(CategoryDto categoryDto)
 		{
@@ -33,9 +36,16 @@ namespace ExpenseTrackerApi.Repo
 
 		public async Task<Payload<ICollection<CategoryResponse>>> GetAllCategories(int pageIndex, int pageSize)
 		{
-			var categories = await _appDbContext.Categories.OrderBy(c => c.CreatedAt).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+			var userId = contextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+			if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var parsedUserId))
+			{
+				return Payload<ICollection<CategoryResponse>>.RequestInvalid("Invalid or missing user ID.");
+			}
+
+			var categories = await _appDbContext.Categories.Where(c => c.UserId == parsedUserId).OrderBy(c => c.CreatedAt).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
 			var count = await _appDbContext.Categories.CountAsync();
-			var totalPages = (int)Math.Ceiling(count / (double)pageSize);
+			var totalPages = (int)Math.Ceiling(count / (double)pageSize); 
 
 			var categoryResponses = mapper.Map<ICollection<CategoryResponse>>(categories);
 

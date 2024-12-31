@@ -4,8 +4,10 @@ using ExpenseTrackerApi.Data;
 using ExpenseTrackerApi.Entities;
 using ExpenseTrackerApi.Interfaces;
 using ExpenseTrackerApi.Models.Accounts;
+using ExpenseTrackerApi.Utils;
 using ExpenseTrackerApi.ViewModels.Accounts;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -59,8 +61,15 @@ namespace ExpenseTrackerApi.Repo
 			var user = mapper.Map<User>(registerDto);
 			user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
 			_appDbContext.Users.Add(user);
-			await _appDbContext.SaveChangesAsync();
 			//RegisterResponse response = mapper.Map<RegisterResponse>(registerDto);
+			var defaultCategories = Constants.DefaultCategories.Select(category => new Category
+			{
+				Name = category.Name,
+				IconUrl = category.IconUrl,
+				UserId = user.Id,
+			});
+			_appDbContext.Categories.AddRange(defaultCategories);
+			await _appDbContext.SaveChangesAsync();
 			return Payload<User>.Successfully(user, "OK");
 		}
 

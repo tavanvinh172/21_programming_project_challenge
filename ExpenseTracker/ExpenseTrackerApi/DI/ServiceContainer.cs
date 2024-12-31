@@ -50,6 +50,7 @@ namespace ExpenseTrackerApi.DI
 			services.AddScoped<IUserService, UserRepo>();
 			services.AddScoped<ICategoryService, CategoryRepo>();
 			services.AddScoped<IFinanceService, FinanceRepo>();
+			services.AddScoped<IBudgetService, BudgetRepo>();
 			services.AddScoped<TokenService>();
 			return services;
 		}

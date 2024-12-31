@@ -43,23 +43,6 @@ namespace ExpenseTrackerApi.Data
                 .HasForeignKey(b => b.CategoryId)
                 .IsRequired(false);
 
-            modelBuilder.Entity<User>().HasData(new User()
-            {
-                Id = Guid.Parse("8d2003ec-b650-4609-b987-8a8da342f1fa"),
-                Email = "tavanvinh172@gmail.com",
-                FullName = "Vinh",
-                PasswordHash = "$2a$11$CaL.cJ7iJzDDW05Y6z8kf.j5RX2M6PrXoh2la.8n4SL2LxeBxob26"
-			});
-
-            modelBuilder.Entity<Category>().HasData(new List<Category>()
-                {
-                    new Category { Name = "Food & Dining", UserId = Guid.Parse("8d2003ec-b650-4609-b987-8a8da342f1fa")},
-                    new Category { Name = "Housing", UserId = Guid.Parse("8d2003ec-b650-4609-b987-8a8da342f1fa")},
-					new Category { Name = "Transportation", UserId = Guid.Parse("8d2003ec-b650-4609-b987-8a8da342f1fa")},
-					new Category { Name = "Health & Wellness", UserId = Guid.Parse("8d2003ec-b650-4609-b987-8a8da342f1fa")}
-				}
-			);
-
 			base.OnModelCreating(modelBuilder);
 		}
 	}

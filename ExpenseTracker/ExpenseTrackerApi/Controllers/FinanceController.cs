@@ -5,6 +5,8 @@ using ExpenseTrackerApi.ViewModels.Finances;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
+using ExpenseTrackerApi.Models.Categories;
+using ExpenseTrackerApi.ViewModels.Categories;
 
 namespace ExpenseTrackerApi.Controllers
 {
@@ -32,5 +34,11 @@ namespace ExpenseTrackerApi.Controllers
 			Console.WriteLine(accessToken);
 			return await financeService.GetAll(pageIndex, pageSize, startDate, endDate);
 		}
+		[HttpPost(nameof(UpdateFinance))]
+		public async Task<Payload<FinanceResponse>> UpdateFinance(Guid id, FinanceDto financeDto)
+		{
+			return await financeService.UpdateFinance(id, financeDto);
+		}
+
 	}
 }

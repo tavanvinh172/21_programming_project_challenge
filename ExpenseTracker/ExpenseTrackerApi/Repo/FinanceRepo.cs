@@ -39,8 +39,6 @@ namespace ExpenseTrackerApi.Repo
 			var nowUtc = DateTime.UtcNow;
 			var filteredStartDate = startDate ?? new DateTime(nowUtc.Year, nowUtc.Month, 1, 0, 0, 0, DateTimeKind.Utc);
 			var filteredEndDate = endDate ?? filteredStartDate.AddMonths(1).AddTicks(-1); // Last moment of the current month in UTC
-			Console.WriteLine($"StartDate {filteredStartDate}");
-			Console.WriteLine($"EndDate {filteredEndDate}");
 			var finances = await _appDbContext.Finances
 				.Where(c => c.CreatedAt >= filteredStartDate && c.CreatedAt <= filteredEndDate)
 				.OrderBy(c => c.CreatedAt)
@@ -60,9 +58,23 @@ namespace ExpenseTrackerApi.Repo
 			return Payload<ICollection<FinanceResponse>>.Successfully(financeResponse, "OK");
 		}
 
-		public Task<Payload<FinanceResponse>> UpdateFinance(Guid id, FinanceDto financeDto)
+		public async Task<Payload<FinanceResponse>> UpdateFinance(Guid id, FinanceDto financeDto)
 		{
-			throw new NotImplementedException();
+			var financeData = await _appDbContext.Finances.FirstOrDefaultAsync(f => f.Id == id);
+
+			if (financeData == null) return Payload<FinanceResponse>.BadRequest("Finance Not Found");
+
+			if (financeDto.Amount != 0) financeData.Amount = financeDto.Amount;
+
+			if (!string.IsNullOrEmpty(financeDto.Description)) financeData.Description = financeDto.Description;
+
+			_appDbContext.Entry(financeData).State = EntityState.Modified;
+
+			await _appDbContext.SaveChangesAsync();
+
+			var financeResponse = mapper.Map<FinanceResponse>(financeData);
+
+			return Payload<FinanceResponse>.Successfully(financeResponse, "Update Successfully");
 		}
 	}
 }
